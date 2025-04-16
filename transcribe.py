@@ -2,9 +2,9 @@ import os
 import sys
 from faster_whisper import WhisperModel
 
-# model_size = "large-v3"
+model_size = "large-v3"
 # model_size = "tiny"
-model_size = "turbo"
+# model_size = "turbo"
 
 # 檢查命令列參數
 if len(sys.argv) < 2:
@@ -47,7 +47,12 @@ model = WhisperModel(model_size, device="cuda", compute_type="float16")
 print(f"處理音檔: {audio_file}")
 print(f"轉錄結果將儲存至: {output_file} 及 {txt_output_file}")
 
-segments, info = model.transcribe(audio_file, beam_size=5, language="zh", initial_prompt="台灣繁體中文")
+segments, info = model.transcribe(audio_file,
+                                  beam_size=5,
+                                  language="zh",
+                                  initial_prompt="台灣繁體中文",
+                                  vad_filter=True,
+                                  log_progress=True)
 
 # print("Detected language '%s' with probability %f" % (info.language, info.language_probability))
 
